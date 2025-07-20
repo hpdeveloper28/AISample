@@ -4,13 +4,13 @@ from langchain_core.prompts import PromptTemplate
 from langchain_openai import ChatOpenAI
 from langchain_ollama import ChatOllama
 
-subject = """Virendra Sehwag"""
+subject = """Rahul Dravid"""
 tag = "information"
 
 if __name__ == "__main__":
     # This function loads the data from .env file
     load_dotenv()
-    print("Finding relevant information")
+    print("Finding relevant information for "+ subject)
 
     summary_template = "Provide the {" + tag + "}"
 
@@ -29,4 +29,4 @@ if __name__ == "__main__":
 
     print(res.pretty_print())
 
-    print("Found relevant information")
+    print("Found relevant information for " +subject)
