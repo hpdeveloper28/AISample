@@ -62,3 +62,4 @@ if __name__ == "__main__":
     # llm = ChatOpenAI(temperature=0, model_name="o3-pro")
 
     find_relevant_information()
+    # find_linkedin_profile()
