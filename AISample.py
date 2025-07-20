@@ -8,6 +8,7 @@ subject = """Virendra Sehwag"""
 tag = "information"
 
 if __name__ == "__main__":
+    # This function loads the data from .env file
     load_dotenv()
     print("Finding relevant information")
 
