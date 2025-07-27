@@ -9,7 +9,7 @@ from tools.tools import get_profile_url_tavily
 
 load_dotenv()
 
-def lookup(name: str) -> str:
+def linkedin_lookup_agent(name: str) -> str:
 
     llm = ChatOllama(model=os.environ["MODEL"])
 
@@ -42,5 +42,5 @@ def lookup(name: str) -> str:
 
 
 if __name__ == "__main__":
-    linkedin_url = lookup(name="Hiren Patel Hexaware")
+    linkedin_url = linkedin_lookup_agent(name="Hiren Patel Hexaware")
     print(linkedin_url)
