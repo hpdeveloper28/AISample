@@ -28,8 +28,6 @@ def find_relevant_information():
 
     print(res)
 
-    print("Found relevant information for " + subject)
-
 
 def find_linkedin_profile():
     # LinkedIn profile find
@@ -77,6 +75,32 @@ def get_linkedin_username(name: str) -> str:
     print(res)
 
 
+def get_crux_of_lengthy_content(details: str):
+
+    tag_summary = "summary"
+    # Create the summary prompt template
+    summary_template = "Summarize the following {" + tag_summary + "}"
+
+    summary_prompt_template = PromptTemplate(
+        input_variables=[tag_summary],
+        template=summary_template
+    )
+
+    # Connect to the LLaMA 3 model via Ollama
+    llm = ChatOllama(model=os.environ["MODEL"])  # e.g., "llama3" or "llama3:8b-instruct"
+
+    # Build the chain
+    chain = summary_prompt_template | llm | StrOutputParser()
+
+    # Run the chain
+    res = chain.invoke(input={tag_summary: details})
+
+    # Output the result
+    print(res)
+
+
+
+
 if __name__ == "__main__":
     # This function loads the data from .env file
 
@@ -85,4 +109,6 @@ if __name__ == "__main__":
 
     # find_relevant_information()
     # find_linkedin_profile()
-    get_linkedin_username("Hiren Patel Hexaware")
+    # get_linkedin_username("Hiren Patel Hexaware")
+
+    get_crux_of_lengthy_content("This night is cold in the kingdom I can feel you fade away from the kitchen to the bathroom sink in Your steps keep me awake Don't cut me down throw me out leave me in a waste I once was in man with dignity and grace Now I'm slipping through the cracks of your cold embrace so please please Could you find a way to let me down slowly? A little sympathy I hope you can show me If you want to go, then I'll be so lonely If you leave him, baby let me down slowly If you want to go, then I'll be so lonely If you leave him, baby let me down slowly Cool skin drag my feet on the tile As I'm walking down the corridor We have been talked in a while So I'm looking for an open door Don't cut me down through me I've been in a waste I once was a man with skinny and grace Now I'm slipping through the cracks Should be cold and raised so please Please Could you find a way to let me down slowly? A little sympathy I hope you can show me If you wanna go then I'll be so lonely If you leave me baby let me down slowly Let me down down Let me down down Let me down down Let me down If you wanna go then I'll be so lonely If you leave me baby let me down slowly And I can stop myself from falling Don't come And I can stop myself from falling Don't come And I can stop myself from falling Don't come And I can stop myself from falling Don't come Could you find a way to let me down slowly? A little sympathy I hope you can show me If you wanna go then I'll be so lonely If you leave me baby let me down slowly Let me down down If you wanna go then I'll be slowly If you leave me baby let me down slowly And if you wanna go then I'll be slowly If you leave me baby let me down slowly And if you wanna go then I'll be slowly")
