@@ -2,10 +2,8 @@ from langchain.memory import ConversationBufferMemory
 from langchain.chains import ConversationalRetrievalChain
 from langchain_community.vectorstores import FAISS
 from langchain_huggingface.embeddings import HuggingFaceEmbeddings
-
 from langchain_community.llms import HuggingFacePipeline
 from transformers import pipeline
-
 
 def llm_pipeline(hf_model, max_length=512, temperature=0.3, top_p=0.95):
     hf_pipeline = None

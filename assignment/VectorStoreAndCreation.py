@@ -2,7 +2,6 @@ from langchain_community.vectorstores import FAISS
 from langchain.docstore.document import Document
 from langchain_huggingface.embeddings import HuggingFaceEmbeddings
 
-
 def create_vector_store(text_chunks, metadata, embedding_model):
     vectorstore = None
     # Code starts here
