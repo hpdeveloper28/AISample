@@ -22,7 +22,7 @@ if __name__ == "__main__":
 
     # Call the function with the model name
     llm_pipeline(
-        hf_model="MBZUAI/LaMini-T5-223M",
+        hf_model=model_name,
         max_length=100,  # Shorter generated text
         temperature=0.1  # Less random output
     )
