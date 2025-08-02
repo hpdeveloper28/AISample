@@ -25,13 +25,15 @@ def conversational_chain(llm, vector_store, question, memory_key, k):
     answer = None
     sources = None
     # Code starts here
-    memory = ConversationBufferMemory(memory_key=memory_key, return_messages=True)
+    memory = ConversationBufferMemory(memory_key=memory_key, return_messages=True, output_key="answer")
     retriever = vector_store.as_retriever(search_kwargs={"k": k})
 
     qa_chain = ConversationalRetrievalChain.from_llm(
         llm=llm,
         retriever=retriever,
-        memory=memory
+        memory=memory,
+        output_key="answer",
+        return_source_documents=True
     )
 
     result = qa_chain.invoke({"question": question})
