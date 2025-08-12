@@ -1,6 +1,7 @@
 from transformers import pipeline
 from langchain_huggingface import HuggingFacePipeline
 
+
 def llm_pipeline(hf_model, max_length=512, temperature=0.3, top_p=0.95):
     hf_pipeline = None
     # Code starts here
@@ -9,7 +10,7 @@ def llm_pipeline(hf_model, max_length=512, temperature=0.3, top_p=0.95):
         model=hf_model,
         max_length=max_length,
         # Pass the generation arguments through a dictionary
-        generate_kwargs={'temperature': temperature, 'top_p': top_p}
+        generate_kwargs={"temperature": temperature, "top_p": top_p},
     )
     hf_pipeline = HuggingFacePipeline(pipeline=llm)
     # Code ends here
@@ -24,5 +25,5 @@ if __name__ == "__main__":
     llm_pipeline(
         hf_model=model_name,
         max_length=100,  # Shorter generated text
-        temperature=0.1  # Less random output
+        temperature=0.1,  # Less random output
     )

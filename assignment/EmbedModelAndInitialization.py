@@ -1,5 +1,6 @@
 from langchain_huggingface.embeddings import HuggingFaceEmbeddings
 
+
 def initialize_embedding_model(model_name: str):
     embedder = None
     # Code starts here

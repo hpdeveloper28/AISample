@@ -1,9 +1,14 @@
 import os
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain_community.document_loaders import PyPDFLoader, UnstructuredWordDocumentLoader
+from langchain_community.document_loaders import (
+    PyPDFLoader,
+    UnstructuredWordDocumentLoader,
+)
 
 
-def process_files_in_folder(folder_path: str, chunk_size: int = 1000, chunk_overlap: int = 100):
+def process_files_in_folder(
+    folder_path: str, chunk_size: int = 1000, chunk_overlap: int = 100
+):
     """
     Processes all .pdf and .docx files in a folder, extracts text, and splits it into chunks.
 
@@ -17,7 +22,9 @@ def process_files_in_folder(folder_path: str, chunk_size: int = 1000, chunk_over
             - text_chunks (list): A list of text chunks extracted from the files.
             - metadata (list): A list of dictionaries with metadata for each chunk.
     """
-    text_splitter = RecursiveCharacterTextSplitter(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
+    text_splitter = RecursiveCharacterTextSplitter(
+        chunk_size=chunk_size, chunk_overlap=chunk_overlap
+    )
     text_chunks = []
     metadata = []
 
@@ -42,4 +49,6 @@ def process_files_in_folder(folder_path: str, chunk_size: int = 1000, chunk_over
 
 
 if __name__ == "__main__":
-    process_files_in_folder("/Users/1000060240/PyCharmMiscProject/1-start-here/AISample/assignment")
+    process_files_in_folder(
+        "/Users/1000060240/PyCharmMiscProject/1-start-here/AISample/assignment"
+    )

@@ -9,6 +9,7 @@ from tools.tools import get_profile_url_tavily
 
 load_dotenv()
 
+
 def linkedin_lookup_agent(name: str) -> str:
 
     llm = ChatOllama(model=os.environ["MODEL"])
@@ -16,7 +17,9 @@ def linkedin_lookup_agent(name: str) -> str:
     template = """given the full name {name_of_person} I want you to get it me a link to their Linkedin profile page.
                                   Your answer should contain only a URL"""
 
-    prompt_template = PromptTemplate(template=template, input_variables=["name_of_person"])
+    prompt_template = PromptTemplate(
+        template=template, input_variables=["name_of_person"]
+    )
 
     tools_for_agent = [
         Tool(

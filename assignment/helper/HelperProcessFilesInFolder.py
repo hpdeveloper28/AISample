@@ -2,7 +2,7 @@ def process_files_in_folder(folder_path, chunk_size, overlap):
     text_chunks = []
     metadata = []
     # Code starts here
-    text_splitter = RecursiveCharacterTextSplitter(
+    text_splitter = RecursiveCharacterTextSplitter()
         text_splitter.chunk_overlap = overlap
         text_splitter.chunk_size = chunk_size
     for filename in os.listdir(folder_path):
