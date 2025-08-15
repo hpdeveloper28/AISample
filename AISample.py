@@ -87,12 +87,13 @@ def get_crux_of_lengthy_content(details: str):
     summary_template = "Summarize the following {" + tag_summary + "}"
 
     summary_prompt_template = PromptTemplate(
-        input_variables=[tag_summary],
-        template=summary_template
+        input_variables=[tag_summary], template=summary_template
     )
 
     # Connect to the LLaMA 3 model via Ollama
-    llm = ChatOllama(model=os.environ["MODEL"])  # e.g., "llama3" or "llama3:8b-instruct"
+    llm = ChatOllama(
+        model=os.environ["MODEL"]
+    )  # e.g., "llama3" or "llama3:8b-instruct"
 
     # Build the chain
     chain = summary_prompt_template | llm | StrOutputParser()
@@ -102,6 +103,7 @@ def get_crux_of_lengthy_content(details: str):
     print("========================================================================")
     # Output the result
     print(res)
+
 
 def get_crux_of_lengthy_content_with_output_parser(details: str) -> str:
 
@@ -114,7 +116,9 @@ def get_crux_of_lengthy_content_with_output_parser(details: str) -> str:
     summary_prompt_template = PromptTemplate(
         input_variables=[tag_summary],
         template=summary_template,
-        partial_variables={"format_instructions": summary_parser.get_format_instructions()},
+        partial_variables={
+            "format_instructions": summary_parser.get_format_instructions()
+        },
     )
 
     # Connect to the LLaMA 3 model via Ollama
