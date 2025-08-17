@@ -1,6 +1,7 @@
 from typing import Union, List
 
 from dotenv import load_dotenv
+from langchain.agents.format_scratchpad import format_log_to_str
 from langchain.agents.output_parsers import ReActSingleInputOutputParser
 from langchain_core.agents import AgentAction, AgentFinish
 from langchain_core.prompts import PromptTemplate
@@ -8,7 +9,7 @@ from langchain_core.tools import render_text_description
 from langchain_ollama import ChatOllama
 import os
 from langchain.agents import tool
-from langchain.tools  import Tool
+from langchain.tools import Tool
 
 load_dotenv()
 
@@ -27,7 +28,6 @@ def find_tool_by_name(tools: List[tool], tool_name: str) -> Tool:
         if tool.name == tool_name:
             return tool
     raise ValueError(f"Tool with name '{tool_name}' not found.")
-
 
 
 if __name__ == "__main__":
@@ -57,7 +57,8 @@ if __name__ == "__main__":
     Begin!
     
     Question: {input}
-    Thought:"""
+    Thought: {agent_scratchpad}
+    """
 
     prompt = PromptTemplate.from_template(template=template).partial(
         tools=render_text_description(tools),
@@ -66,16 +67,46 @@ if __name__ == "__main__":
 
     llm = ChatOllama(temperature=0, model=os.environ["MODEL"], stop=["\nObservation:"])
 
-    agent = {"input": lambda x:x["input"]} | prompt | llm | ReActSingleInputOutputParser()
+    intermediate_steps = []
 
-    agent_step: Union[AgentAction, AgentFinish] = agent.invoke({"input": "What is the length of the text 'This is a sample text.'?"})
+    agent = (
+        {
+            "input": lambda x: x["input"],
+            "agent_scratchpad": lambda x: format_log_to_str(x["agent_scratchpad"]),
+        }
+        | prompt
+        | llm
+        | ReActSingleInputOutputParser()
+    )
+
+    agent_step: Union[AgentAction, AgentFinish] = agent.invoke(
+        {
+            "input": "What is the length of the text 'This is a sample text.'?",
+            "agent_scratchpad": intermediate_steps,
+        }
+    )
 
     print(agent_step)
+    while True:
+        if isinstance(agent_step, AgentAction):
+            tool_name = agent_step.tool
+            tool_to_use = find_tool_by_name(tools, tool_name)
+            tool_input = agent_step.tool_input
 
-    if isinstance(agent_step, AgentAction):
-        tool_name = agent_step.tool
-        tool_to_use = find_tool_by_name(tools, tool_name)
-        tool_input = agent_step.tool_input
+            observation = tool_to_use.func(str(tool_input))
+            print(f"Observation: {observation}")
+            intermediate_steps.append((agent_step, str(observation)))
+        elif isinstance(agent_step, AgentFinish):
+            # LLM produced the final answer
+            print("Final Answer:", agent_step.return_values["output"])
+        break
 
-        observation = tool_to_use.func(str(tool_input))
-        print(f"Observation: {observation}")
+    agent_step: Union[AgentAction, AgentFinish] = agent.invoke(
+        {
+            "input": "What is the length of the text 'This is a sample text.'?",
+            "agent_scratchpad": intermediate_steps,
+        }
+    )
+
+
+    print(agent_step)
