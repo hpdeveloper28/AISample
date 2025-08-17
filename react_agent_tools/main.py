@@ -10,6 +10,7 @@ from langchain_ollama import ChatOllama
 import os
 from langchain.agents import tool
 from langchain.tools import Tool
+from callbacks import AgentCallBackHandler
 
 load_dotenv()
 
@@ -65,7 +66,12 @@ if __name__ == "__main__":
         tool_names=", ".join(tool.name for tool in tools),
     )
 
-    llm = ChatOllama(temperature=0, model=os.environ["MODEL"], stop=["\nObservation:"])
+    llm = ChatOllama(
+        temperature=0,
+        model=os.environ["MODEL"],
+        stop=["\nObservation:"],
+        callbacks=[AgentCallBackHandler()],
+    )
 
     intermediate_steps = []
 
