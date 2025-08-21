@@ -10,6 +10,7 @@ from langchain.chains.retrieval import create_retrieval_chain
 
 load_dotenv()
 
+
 def format_docs(docs):
     return "\n\n".join(doc.page_content for doc in docs)
 
@@ -45,10 +46,14 @@ if __name__ == "__main__":
 
     custom_rag_prompt = PromptTemplate.from_template(template)
 
-    rag_chain =({
-        "context": vectordatastore.as_retriever() | format_docs,
-        "question": RunnablePassthrough(),
-    } | custom_rag_prompt | llm)
+    rag_chain = (
+        {
+            "context": vectordatastore.as_retriever() | format_docs,
+            "question": RunnablePassthrough(),
+        }
+        | custom_rag_prompt
+        | llm
+    )
 
     res = rag_chain.invoke(query)
     print(res)

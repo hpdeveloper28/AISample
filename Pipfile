@@ -10,6 +10,8 @@ langchainhub = "*"
 python-dotenv = "*"
 black = "*"
 langchain-community = "*"
+pypdf = "*"
+faiss-cpu = "*"
 
 [dev-packages]
 
