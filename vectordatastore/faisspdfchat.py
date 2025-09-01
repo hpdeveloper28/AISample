@@ -38,7 +38,9 @@ if __name__ == "__main__":
 
     combine_docs_chain = create_stuff_documents_chain(llm, retrieval_qa_chat_prompt)
 
-    retrieval_qa_chain = create_retrieval_chain(new_vector_data_store.as_retriever(), combine_docs_chain)
+    retrieval_qa_chain = create_retrieval_chain(
+        new_vector_data_store.as_retriever(), combine_docs_chain
+    )
     query = "What is the Pulmonary details mentioned in the report?"
     result = retrieval_qa_chain.invoke(input={"input": query})
-    print(result['answer'])
+    print(result["answer"])

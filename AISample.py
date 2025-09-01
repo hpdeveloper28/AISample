@@ -110,9 +110,9 @@ def get_crux_of_lengthy_content_with_output_parser(details: str) -> str:
     tag_summary = "summary"
     # Create the summary prompt template
     summary_template = (
-            "Summarize the following {" + tag_summary + "}.\n\n"
-                                                        "Provide the summary and key facts in concise bullet points.\n"
-                                                        "{format_instructions}"
+        "Summarize the following {" + tag_summary + "}.\n\n"
+        "Provide the summary and key facts in concise bullet points.\n"
+        "{format_instructions}"
     )
 
     summary_prompt_template = PromptTemplate(
@@ -124,9 +124,7 @@ def get_crux_of_lengthy_content_with_output_parser(details: str) -> str:
     )
 
     # Connect to the LLaMA 3 model via Ollama
-    llm = ChatOllama(
-        model=os.environ["MODEL"]
-    )
+    llm = ChatOllama(model=os.environ["MODEL"])
 
     chain = summary_prompt_template | llm | summary_parser
 

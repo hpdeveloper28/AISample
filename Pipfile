@@ -12,6 +12,7 @@ black = "*"
 langchain-community = "*"
 pypdf = "*"
 faiss-cpu = "*"
+playwright = "*"
 
 [dev-packages]
 
