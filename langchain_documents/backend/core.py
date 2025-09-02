@@ -30,14 +30,16 @@ def run_llm_chain(query: str, chat_history=List[Dict[str, Any]]):
     rephase_prompt = hub.pull("langchain-ai/chat-langchain-rephrase")
 
     history_aware_retriever = create_history_aware_retriever(
-        llm = llm, retriever=docsearch.as_retriever(), prompt=rephase_prompt
+        llm=llm, retriever=docsearch.as_retriever(), prompt=rephase_prompt
     )
 
     retrieval_chain = create_retrieval_chain(
         retriever=history_aware_retriever, combine_docs_chain=stuff_document_chain
     )
 
-    response = retrieval_chain.invoke(input={"input": query, "chat_history": chat_history})
+    response = retrieval_chain.invoke(
+        input={"input": query, "chat_history": chat_history}
+    )
     new_response = {
         "result": response["answer"],
         "source_documents": response["context"],

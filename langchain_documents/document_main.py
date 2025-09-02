@@ -14,6 +14,7 @@ if "chat_answer_history" not in st.session_state:
 if "chat_history" not in st.session_state:
     st.session_state["chat_history"] = []
 
+
 def create_source_string(sources):
     if not sources:
         return "No sources available."
@@ -24,7 +25,7 @@ def create_source_string(sources):
 
 if prompt:
     st.spinner("Generating response...")
-    response = run_llm_chain(prompt, chat_history=st.session_state["chat_history"] )
+    response = run_llm_chain(prompt, chat_history=st.session_state["chat_history"])
     sources = set([doc.metadata["source"] for doc in response["source_documents"]])
     generated_response = f"{response['result']}\n\n {create_source_string(sources)}"
     st.success("Response generated!")
